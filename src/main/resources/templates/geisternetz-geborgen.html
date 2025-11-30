@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Geisternetz geborgen</title>
+</head>
+<body>
+	<h1>Geisternetz als geborgen markieren</h1>
+
+	<p>
+		Möchten Sie folgendes Geisternetz als <strong>geborgen</strong>
+		markieren?
+	</p>
+
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<td th:text="${netz.id}"></td>
+		</tr>
+		<tr>
+			<th>Latitude</th>
+			<td th:text="${netz.latitude}"></td>
+		</tr>
+		<tr>
+			<th>Longitude</th>
+			<td th:text="${netz.longitude}"></td>
+		</tr>
+		<tr>
+			<th>Größe (m²)</th>
+			<td th:text="${netz.groesse}"></td>
+		</tr>
+		<tr>
+			<th>Status</th>
+			<td th:text="${netz.status}"></td>
+		</tr>
+	</table>
+
+	<br>
+
+	<form th:action="@{/geisternetz/geborgen}" method="post"
+		style="display: inline;">
+		<input type="hidden" name="id" th:value="${netz.id}">
+		<button type="submit">Ja, als geborgen markieren</button>
+	</form>
+
+	<br>
+	<a th:href="@{/bergender/uebersicht}">Zurück zur Übersicht</a>
+
+</body>
+</html>

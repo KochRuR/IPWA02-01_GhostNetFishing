@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Anmeldung - Bergender</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<h1>Anmeldung als Bergender</h1>
+
+	<div th:if="${error}" class="error-message">
+		<span th:text="${error}"></span>
+	</div>
+
+	<form th:action="@{/anmeldung/bergender}" method="post">
+		<label>Name:</label> <input type="text" name="name" maxlength="100">
+		<br> <br> <label>Telefonnummer:</label> <input type="tel"
+			name="telefonnummer" maxlength="20"> <br> <br>
+
+		<button type="submit">Anmelden</button>
+	</form>
+
+	<br>
+	<a href="/">Zurück zur Startseite</a>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Bergender Übersicht</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<h1>Zu bergende Geisternetze</h1>
+
+	<div th:if="${param.error}" class="error-message">
+		<span th:if="${param.error[0] == 'falschePerson'}">Dieses
+			Netz gehört einer anderen Person!</span> <span
+			th:if="${param.error[0] == 'nichtAngemeldet'}">Sie sind
+			nicht angemeldet!</span> <span
+			th:if="${param.error[0] == 'bereitsVergeben'}">Dieses Netz
+			wurde bereits von jemand anderem übernommen!</span> <span
+			th:if="${param.error[0] == 'nichtVerfuegbar'}">Dieses Netz
+			ist nicht verfügbar!</span> <span
+			th:if="${param.error[0] == 'falscherStatus'}">Dieses Netz
+			kann nicht als geborgen gemeldet werden!</span>
+	</div>
+
+	<div th:if="${param.success}" class="success-message">
+		<span th:if="${param.success[0] == 'geborgen'}">Netz
+			erfolgreich als geborgen gemeldet!</span> <span
+			th:if="${param.success[0] == 'vorbereitet'}">Bergung
+			erfolgreich vorbereitet!</span> <span
+			th:if="${param.success[0] == 'verschollen'}">Netz als
+			verschollen gemeldet!</span>
+	</div>
+
+	<table border="1">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Latitude</th>
+				<th>Longitude</th>
+				<th>Größe (m²)</th>
+				<th>Status</th>
+				<th>Meldender</th>
+				<th>Tel. Meldender</th>
+				<th>Bergender</th>
+				<th>Tel. Bergender</th>
+				<th>Aktionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="netz : ${geisternetze}">
+				<td th:text="${netz.id}"></td>
+				<td th:text="${netz.latitude}"></td>
+				<td th:text="${netz.longitude}"></td>
+				<td th:text="${netz.groesse}"></td>
+				<td th:text="${netz.status}"></td>
+				<td
+					th:text="${netz.meldendePerson != null ? netz.meldendePerson.name : 'anonym'}"></td>
+				<td
+					th:text="${netz.meldendePerson != null ? netz.meldendePerson.telefonnummer : '-'}"></td>
+				<td
+					th:text="${netz.bergendePerson != null ? netz.bergendePerson.name : '-'}"></td>
+				<td
+					th:text="${netz.bergendePerson != null ? netz.bergendePerson.telefonnummer : '-'}"></td>
+				<td>
+					<form
+						th:if="${netz.status.name() == 'GEMELDET' && netz.bergendePerson == null}"
+						th:action="@{/bergung/vorbereiten/{id}(id=${netz.id})}"
+						method="get" style="display: inline;">
+						<button type="submit">Bergung vorbereiten</button>
+					</form>
+					<form th:if="${netz.status.name() == 'BERGUNG_BEVORSTEHEND'}"
+						th:action="@{/geisternetz/geborgen/formular}" method="post"
+						style="display: inline;">
+						<input type="hidden" name="id" th:value="${netz.id}">
+						<button type="submit">Als geborgen markieren</button>
+					</form>
+					<form
+						th:if="${netz.status.name() == 'GEMELDET' || netz.status.name() == 'BERGUNG_BEVORSTEHEND'}"
+						th:action="@{/geisternetz/verschollen/formular}" method="post"
+						style="display: inline;">
+						<input type="hidden" name="id" th:value="${netz.id}">
+						<button type="submit">Verschollen</button>
+					</form> <span
+					th:if="${netz.status.name() == 'GEBORGEN' || netz.status.name() == 'VERSCHOLLEN'}">-</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<br>
+
+	<form th:action="@{/abmelden}" method="post">
+		<button type="submit">Abmelden</button>
+	</form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Geisternetz gemeldet</title>
+</head>
+<body>
+	<h1>Vielen Dank!</h1>
+	<p>Das Geisternetz wurde erfolgreich gemeldet und kann nun von
+		bergenden Personen gefunden werden.</p>
+
+	<form th:action="@{/meldender/uebersicht}" method="get">
+		<button type="submit">Zurück zur Übersicht</button>
+	</form>
+</body>
+</html>
+
+

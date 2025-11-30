@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>GhostNet Fishing</title>
+</head>
+<body>
+	<h1>GhostNet Fishing: Gemeinsam gegen Geisternetze</h1>
+	<p>powered by Shea Sepherd</p>
+	<h3>Wie möchten Sie helfen?</h3>
+
+	<div>
+		<div>
+			<h2>Geisternetz melden</h2>
+			<ul>
+				<li>Melden Sie gefundene Geisternetze (auch anonym möglich)</li>
+				<li>Melden Sie verschollene Geisternetze</li>
+				<li>Sehen Sie bisher gemeldete Geisternetze</li>
+			</ul>
+			<form th:action="@{/anmeldung/meldender}" method="get">
+				<button type="submit">Als meldende Person anmelden</button>
+			</form>
+		</div>
+
+		<div>
+			<h2>Geisternetz bergen</h2>
+			<ul>
+				<li>Bereiten Sie Geisternetze zur Bergung vor</li>
+				<li>Bergen Sie Geisternetze</li>
+				<li>Melden Sie verschollene Geisternetze</li>
+				<li>Sehen Sie zur Bergung vorbereitete Netze und wer diese
+					bergen möchte</li>
+			</ul>
+			<form th:action="@{/anmeldung/bergender}" method="get">
+				<button type="submit">Als bergende Person anmelden</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

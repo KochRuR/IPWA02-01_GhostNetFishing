@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Meldender Übersicht</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<h1>Gemeldete Geisternetze</h1>
+
+	<div th:if="${param.error}" class="error-message">
+		<span th:if="${param.error[0] == 'anonym'}">Anonyme Meldende
+			können Netze nicht als verschollen melden!</span> <span
+			th:if="${param.error[0] == 'nichtAngemeldet'}">Sie sind
+			nicht angemeldet!</span>
+	</div>
+
+	<div th:if="${param.success}" class="success-message">
+		<span th:if="${param.success[0] == 'verschollen'}">Netz
+			erfolgreich als verschollen gemeldet!</span>
+	</div>
+
+	<form th:action="@{/geisternetz/melden}" method="get">
+		<button type="submit">Neues Netz melden</button>
+	</form>
+
+	<br>
+
+	<table border="1">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Latitude</th>
+				<th>Longitude</th>
+				<th>Größe (m²)</th>
+				<th>Status</th>
+				<th>Meldende Person</th>
+				<th>Telefonnummer</th>
+				<th>Aktionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="netz : ${geisternetze}">
+				<td th:text="${netz.id}"></td>
+				<td th:text="${netz.latitude}"></td>
+				<td th:text="${netz.longitude}"></td>
+				<td th:text="${netz.groesse}"></td>
+				<td th:text="${netz.status}"></td>
+				<td
+					th:text="${netz.meldendePerson != null ? netz.meldendePerson.name : 'anonym'}"></td>
+				<td
+					th:text="${netz.meldendePerson != null ? netz.meldendePerson.telefonnummer : '-'}"></td>
+				<td>
+					<form
+						th:if="${netz.status.name() == 'GEMELDET' || netz.status.name() == 'BERGUNG_BEVORSTEHEND'}"
+						th:action="@{/geisternetz/verschollen/formular}" method="post"
+						style="display: inline;">
+						<input type="hidden" name="id" th:value="${netz.id}" />
+						<button type="submit">Verschollen</button>
+					</form> <span th:if="${netz.status.name() == 'GEBORGEN'}">-</span> <span
+					th:if="${netz.status.name() == 'VERSCHOLLEN'}">-</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<br>
+
+	<form th:action="@{/abmelden}" method="post">
+		<button type="submit">Abmelden</button>
+	</form>
+</body>
+</html>
